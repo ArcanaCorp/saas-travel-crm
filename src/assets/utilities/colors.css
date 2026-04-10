@@ -1,0 +1,78 @@
+/* =========================
+🎨 BACKGROUNDS
+========================= */
+.bg-primary { background-color: var(--color-primary); }
+.bg-primary-hover:hover { background-color: var(--color-primary-hover); }
+.bg-primary-active:active { background-color: var(--color-primary-active); }
+
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-secondary-hover:hover { background-color: var(--color-secondary-hover); }
+
+.bg-tertiary { background-color: var(--color-tertiary); }
+
+.bg-neutral { background-color: var(--color-neutral); }
+.bg-background { background-color: var(--color-background); }
+.bg-surface { background-color: var(--color-surface); }
+.bg-none { background: none; }
+
+/* =========================
+🧾 TEXT COLORS
+========================= */
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted { color: var(--color-text-muted); }
+.text-inverse { color: var(--color-text-inverse); }
+
+/* =========================
+🎯 TEXT BRAND
+========================= */
+.text-brand { color: var(--color-primary); }
+.text-brand-secondary { color: var(--color-secondary); }
+.text-tertiary { color: var(--color-tertiary); }
+
+/* =========================
+🚦 STATES (TEXT + BG)
+========================= */
+.text-success { color: var(--color-success); }
+.bg-success { background-color: var(--color-success); }
+.bg-success-transparent { background-color: var(--color-success-bg); }
+
+.bg-warning { background-color: var(--color-warning-bg); }
+.text-warning { color: var(--color-warning); }
+
+.text-error { color: var(--color-error); }
+.bg-error { background-color: var(--color-error); }
+.bg-error-transparent { background-color: var(--color-error-bg); }
+
+.bg-info { background-color: var(--color-info-bg); }
+.text-info { color: var(--color-info); }
+
+/* =========================
+🔲 BORDERS
+========================= */
+.border { border: 1px solid var(--color-border); }
+.border-light { border: 1px solid var(--color-border-light); }
+
+.border-primary { border: 1px solid var(--color-primary); }
+.border-secondary { border: 1px solid var(--color-secondary); }
+
+.border-success { border: 1px solid var(--color-success); }
+.border-warning { border: 1px solid var(--color-warning); }
+.border-error { border: 1px solid var(--color-error); }
+.border-info { border: 1px solid var(--color-info); }
+
+/* =========================
+🔲 FOCUS STATES
+========================= */
+.focus-ring:focus {
+    outline: none;
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 2px rgba(0, 123, 131, 0.2);
+}
+
+/* =========================
+🧩 UTILIDADES EXTRA
+========================= */
+.bg-hover:hover { background-color: var(--color-neutral); }
+.text-hover:hover { color: var(--color-primary); }
+.border-hover:hover { border-color: var(--color-primary); }

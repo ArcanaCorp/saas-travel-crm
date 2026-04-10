@@ -1,0 +1,50 @@
+import { createServerClient } from "@supabase/ssr";
+import { NextResponse } from "next/server";
+import { SUPABASE } from "./config";
+
+export async function proxy (req) {
+
+    const res = NextResponse.next();
+
+    const supabase = createServerClient(SUPABASE.URL, SUPABASE.KEY, {
+        cookies: {
+            get(name) {
+                return req.cookies.get(name)?.value;
+            },
+            set(name, value, options) {
+                res.cookies.set(name, value, options);
+            },
+            remove(name, options) {
+                res.cookies.set(name, "", options);
+            },
+        },
+    });
+
+    console.log("cookies:", req.cookies.getAll());
+
+    const { data: { user }, } = await supabase.auth.getUser();
+
+    console.log(`user: ${user}`);
+
+    const isAuth = !!user;
+    const { pathname } = req.nextUrl;
+
+    const publicRoutes = ["/", "/recover-password"];
+    const isPublic = publicRoutes.includes(pathname);
+
+    // 🔒 No autenticado
+    if (!isAuth && !isPublic) {
+        return NextResponse.redirect(new URL("/", req.url));
+    }
+
+    // 🔓 Ya autenticado
+    if (isAuth && pathname === "/") {
+        return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+
+    return res;
+}
+
+export const config = {
+    matcher: ["/((?!_next|favicon.ico).*)"],
+};

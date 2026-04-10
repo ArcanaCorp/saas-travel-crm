@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    user-select: none;
+    box-sizing: border-box;
+    font-family: var(--font-body-sans);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
+    font-size: var(--font-size-md);
+    color: var(--color-text-primary);
+    background-color: var(--color-neutral);
+}
+
+ul, li, ol { list-style: none; }
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-text-primary);
+}
+
+.tabler-icon { stroke-width: 1.2; }

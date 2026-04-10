@@ -1,0 +1,128 @@
+/* =========================
+🔤 FONT FAMILY
+========================= */
+.font-base { font-family: var(--font-family-base); }
+
+/* =========================
+🎨 TEXT COLORS
+========================= */
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted { color: var(--color-text-muted); }
+.text-inverse { color: var(--color-text-inverse); }
+
+.text-brand { color: var(--color-primary); }
+.text-brand-secondary { color: var(--color-secondary); }
+.text-tertiary { color: var(--color-tertiary); }
+
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-error { color: var(--color-error); }
+.text-info { color: var(--color-info); }
+
+/* =========================
+📏 FONT STYLE
+========================= */
+.text-italic { font-style: italic; }
+
+/* =========================
+📏 FONT SIZES
+========================= */
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-md { font-size: var(--font-size-md); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+
+/* =========================
+🔠 FONT WEIGHT
+========================= */
+.font-regular { font-weight: var(--font-weight-regular); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-bold { font-weight: var(--font-weight-bold); }
+
+/* =========================
+📐 LINE HEIGHT
+========================= */
+.leading-base { line-height: var(--line-height-base); }
+.leading-heading { line-height: var(--line-height-heading); }
+
+/* =========================
+📍 TEXT ALIGN
+========================= */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* =========================
+🔡 TEXT TRANSFORM
+========================= */
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+.capitalize { text-transform: capitalize; }
+
+/* =========================
+🔤 LETTER SPACING
+========================= */
+.tracking-tight { letter-spacing: -0.5px; }
+.tracking-normal { letter-spacing: 0; }
+.tracking-wide { letter-spacing: 0.5px; }
+
+/* =========================
+📏 TEXT DECORATION
+========================= */
+.no-underline { text-decoration: none; }
+.underline { text-decoration: underline; }
+.line-through { text-decoration: line-through; }
+
+/* =========================
+🧩 TEXT OVERFLOW
+========================= */
+.text-truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* =========================
+📦 HEADINGS (PRESETS)
+========================= */
+.h1 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+}
+
+.h2 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+}
+
+.h3 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+}
+
+.h4 {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+}
+
+/* =========================
+📄 PARAGRAPH
+========================= */
+.text-body {
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-base);
+    color: var(--color-text-secondary);
+}
+
+/* =========================
+🧪 EXTRA UTILITIES
+========================= */
+.text-nowrap { white-space: nowrap; }
+.text-wrap { white-space: normal; }
+.text-break { word-break: break-word; }

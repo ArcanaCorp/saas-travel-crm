@@ -1,0 +1,172 @@
+/* =========================
+🔘 BASE BUTTON
+========================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 48px;
+    padding: 0 var(--space-md);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-base);
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: var(--transition-base);
+    user-select: none;
+}
+
+/* =========================
+📦 BLOCK
+========================= */
+.btn-block {
+    display: flex;
+    width: 100%;
+}
+
+/* =========================
+🎨 VARIANTS
+========================= */
+
+/* PRIMARY */
+.btn-primary {
+    color: var(--color-text-inverse);
+    background-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.btn-primary:active {
+    background-color: var(--color-primary-active);
+}
+
+/* SECONDARY */
+.btn-secondary {
+    color: var(--color-text-inverse);
+    background-color: var(--color-secondary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-secondary-hover);
+}
+
+/* OUTLINE */
+.btn-outline {
+    color: var(--color-primary);
+    background-color: transparent;
+    border-color: var(--color-primary);
+}
+
+.btn-outline:hover {
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+}
+
+/* GHOST */
+.btn-ghost {
+    background-color: transparent;
+    color: var(--color-primary);
+}
+
+.btn-ghost:hover {
+    background-color: var(--color-neutral);
+}
+
+/* =========================
+🚦 STATES
+========================= */
+
+/* SUCCESS */
+.btn-success {
+    background-color: var(--color-success);
+    color: var(--color-text-inverse);
+}
+
+.btn-success:hover {
+    opacity: 0.9;
+}
+
+/* WARNING */
+.btn-warning {
+    background-color: var(--color-warning);
+    color: var(--color-text-primary);
+}
+
+.btn-warning:hover {
+    opacity: 0.9;
+}
+
+/* ERROR */
+.btn-error {
+    background-color: var(--color-error);
+    color: var(--color-text-inverse);
+}
+
+.btn-error:hover {
+    opacity: 0.9;
+}
+
+/* =========================
+⛔ DISABLED
+========================= */
+.btn:disabled,
+.btn-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* =========================
+📏 SIZES
+========================= */
+.btn-sm {
+    height: 36px;
+    font-size: var(--font-size-sm);
+    padding: 0 var(--space-sm);
+}
+
+.btn-md {
+    height: 48px;
+}
+
+.btn-lg {
+    height: 56px;
+    font-size: var(--font-size-lg);
+    padding: 0 var(--space-lg);
+}
+
+/* =========================
+🔵 FOCUS
+========================= */
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 131, 0.25);
+}
+
+/* =========================
+🔘 RADIUS
+========================= */
+.btn-rounded-sm { border-radius: var(--radius-sm); }
+.btn-rounded-md { border-radius: var(--radius-md); }
+.btn-rounded-lg { border-radius: var(--radius-lg); }
+.btn-rounded-xl { border-radius: var(--radius-xl); }
+.btn-rounded-full { border-radius: var(--radius-full); }
+
+/* =========================
+🧩 EXTRA
+========================= */
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.btn-loading {
+    opacity: 0.8;
+    pointer-events: none;
+}

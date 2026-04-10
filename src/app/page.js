@@ -1,66 +1,114 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
 
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+import { clientDB } from "@/libs/supabase";
+import { signInOrSignUp } from "@/services/auth.service";
+import { IconEye, IconEyeClosed, IconLock, IconMail } from "@tabler/icons-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+export default function Page () {
+
+    const router = useRouter();
+    const [ email, setEmail ] = useState('')
+    const [ password, setPassword ] = useState('')
+    const [ error, setError ] = useState('')
+    const [ loading, setLoading ] = useState(false)
+    const [ viewPwd, setViewPwd ] = useState(false)
+
+    const handleLogin = async (e) => {
+
+        e.preventDefault();
+
+        if (!email || !password) {
+            setError("Completa todos los campos");
+            return;
+        }
+
+        try {
+
+            setLoading(true)
+            setError('')
+            const { user } = await signInOrSignUp(email, password);
+            if (user) {
+                router.push('/dashboard')
+                router.refresh();
+            }
+
+        } catch (e) {
+            setError(e)
+            console.error(e);
+        } finally {
+            setLoading(false)
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        try {
+            setLoading(true);
+
+            await clientDB.auth.signInWithOAuth({
+                provider: "google",
+                options: {
+                    redirectTo: `${location.origin}/dashboard`
+                }
+            });
+
+        } catch (err) {
+            setError("Error con Google");
+            setLoading(false);
+        }
+    };
+
+    return (
+
+        <div className="w m-auto flex flex-col justify-between gap-lg" style={{"--w": "60%"}}>
+            
+            <div className="flex flex-col gap-xs">
+                <h1>Bienvenido de nuevo</h1>
+                <p className="text-sm text-muted">Ingresa tus credenciales para acceder al panel de administración.</p>
+            </div>
+
+            <form className="w-full flex flex-col gap-md my-lg" onSubmit={handleLogin}>
+                <div className="w-full">
+                    <label className="block mb-md text-sm text-muted font-medium">Correo Electrónico</label>
+                    <div className="w-full h bg-surface rounded-sm flex" style={{"--h": "48px"}}>
+                        <span className="center w h" style={{"--w": "48px", "--h": "48px"}}><IconMail/></span>
+                        <input type="email" className="w-full h-full" value={email} placeholder="Ingresa tu correo electrónico" onChange={(e) => setEmail(e.target.value)} disabled={loading}/>
+                    </div>
+                </div>
+                <div className="w-full">
+                    <p className="flex items-center justify-between mb-md">
+                        <label className="text-sm text-muted font-medium">Contraseña</label>
+                        <Link href={'/recover-password'} className="text-sm text-brand">¿Olvidaste tu contraseña?</Link>
+                    </p>
+                    <div className="w-full h bg-surface rounded-sm flex" style={{"--h": "48px"}}>
+                        <span className="center w h" style={{"--w": "48px", "--h": "48px"}}><IconLock/></span>
+                        <input type={viewPwd ? `text` : 'password'} className="w-full h-full" placeholder="Ingresa tu contraseña" onChange={(e) => setPassword(e.target.value)} disabled={loading}/>
+                        <span className="center w h" style={{"--w": "48px", "--h": "48px", "cursor": "pointer"}} onClick={() => setViewPwd(!viewPwd)}>{viewPwd ? <IconEyeClosed/> : <IconEye/>}</span>
+                    </div>
+                </div>
+                <div className="w-full">
+                    <label className="flex items-center gap-sm text-muted text-sm"><input type="checkbox" className="w h border" style={{"--w": "20px", "--h": "20px"}}/>Mantener la sesión iniciada</label>
+                </div>
+                <div className="w-full">
+                    <button className="w-full h bg-primary text-inverse rounded-md" style={{"--h": "48px"}}>{loading ? 'Cargando...' : 'Iniciar Sesión'}</button>
+                </div>
+            </form>
+
+            <div className="w-full flex flex-col gap-md">
+                <div className="w-full h bg-secondary" style={{"--h": "1px"}}></div>
+                <button className="w-full h bg-surface rounded-md border" style={{"--h": "48px"}} onClick={handleGoogleLogin}>{loading ? 'Cargando...' : 'Iniciar Sesión con Google'}</button>
+            </div>
+
+            <ul className="w-full flex items-center justify-center gap-md">
+                <li><Link href={'/'} className="text-sm text-muted font-medium uppercase">PRIVACIDAD</Link></li>
+                <li><Link href={'/'} className="text-sm text-muted font-medium uppercase">TÉRMINOS</Link></li>
+                <li><Link href={'/'} className="text-sm text-muted font-medium uppercase">SOPORTE TÉCNICO</Link></li>
+                <li><Link href={'/'} className="text-sm text-muted font-medium uppercase">TRAVELCRM</Link></li>
+            </ul>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+
+    )
+
 }
