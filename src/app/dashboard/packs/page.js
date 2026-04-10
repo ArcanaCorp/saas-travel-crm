@@ -2,11 +2,13 @@
 
 import FormNewPackage from "@/components/packs/FormNewPackage";
 import ListPacks from "@/components/packs/ListPacks";
-import RowPacks from "@/components/packs/RowPacks";
+import { usePackages } from "@/hooks/usePackage";
 import { IconFilter2, IconPlus, IconSearch, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 
 export default function Page () {
+
+    const { packs, loading, fetchPacks } = usePackages();
 
     const [ viewNewPackage, setViewNewPackage ] = useState(false);
 
@@ -45,7 +47,7 @@ export default function Page () {
                             <span className="w-full h-full flex items-center justify-center text-xs text-muted font-medium uppercase">ESTADO</span>
                             <span className="w-full h-full flex items-center justify-center text-xs text-muted font-medium uppercase">ACCIONES</span>
                         </li>
-                        <ListPacks/>
+                        <ListPacks packs={packs} loading={loading} refresh={fetchPacks}/>
                     </ul>
                 </div>
                 {viewNewPackage && (
@@ -54,7 +56,7 @@ export default function Page () {
                             <h3>Nuevo paquete</h3>
                             <button className="center w h rounded-full" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}} onClick={handleTooglePackage}><IconX/></button>
                         </div>
-                        <FormNewPackage handleToogle={handleTooglePackage} />
+                        <FormNewPackage handleToogle={handleTooglePackage} refresh={fetchPacks} />
                     </div>
                 )}
             </div>

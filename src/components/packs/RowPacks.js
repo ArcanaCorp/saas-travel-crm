@@ -3,16 +3,13 @@ import ClientGroup from "../ClientGroup";
 import { toast } from "sonner";
 import { deletePackage } from "@/services/packages.service";
 
-export default function RowPacks ({ pack }) {
+export default function RowPacks ({ pack, refresh }) {
 
     const handleDelete = async () => {
         try {
-            const promise = deletePackage(pack.id);
-            toast.promise(promise, {
-                loading: "Eliminando paquete...",
-                success: "Paquete eliminado correctamente",
-                error: (err) => `Error: ${err.message}`,
-            });
+            await deletePackage(pack.id);
+            await refresh()
+            toast.success('Eliminado', {description: 'El agente fue eliminado correctamente'});
         } catch (error) {
             console.error(error);
             toast.error('Error', { description: `Error: ${error.message}` })
@@ -20,14 +17,14 @@ export default function RowPacks ({ pack }) {
     }
 
     const handleQuestionDelete = async () => {
-        toast('¿Deseas eliminar el paquete?', {
-            description: 'Esta acción no se podrá deshacer una vez completa.', 
+        toast('¿Eliminar el paquete?', {
+            description: 'Esta acción no se puede deshacer', 
             action: {
-                label: 'Sí, deseo eliminar',
-                onClick: handleDelete()
+                label: 'Sí, eliminar',
+                onClick: handleDelete
             },
             cancel: {
-                label: 'No, deseo mantenerlo'
+                label: 'Cancelar'
             }
         })
     }

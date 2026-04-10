@@ -2,14 +2,12 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { createPackage } from "@/services/packages.service";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export default function FormNewPackage ({ handleToogle }) {
+export default function FormNewPackage ({ handleToogle, refresh }) {
 
     const { user } = useAuth();
-    const router = useRouter();
 
     const [ form, setForm ] = useState({
         name: '',
@@ -49,6 +47,8 @@ export default function FormNewPackage ({ handleToogle }) {
             };
 
             await createPackage(payload);
+            handleToogle();
+            await refresh();
 
             toast.success('Se creó con éxito el paquete turístico')
         
@@ -57,8 +57,6 @@ export default function FormNewPackage ({ handleToogle }) {
             toast.error('Error', { description: error.message })
         } finally {
             setLoading(false);
-            handleToogle();
-            router.refresh();
         }
     }
 

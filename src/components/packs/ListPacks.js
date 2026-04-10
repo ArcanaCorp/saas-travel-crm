@@ -1,33 +1,11 @@
 'use client';
 
-import { useAuth } from "@/context/AuthContext";
 import RowPacks from "./RowPacks";
-import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'
-import { getPackages } from "@/services/packages.service";
+import { usePackages } from "@/hooks/usePackage";
 
-export default function ListPacks () {
-
-    const { user } = useAuth();
-
-    const [ packs, setPacks ] = useState([]);
-    const [ loading, setLoading ] = useState(true);
-
-    useEffect(() => {
-        if (!user?.agency_id) return;
-        const fetchPacks = async () => {
-            try {
-                const data = await getPackages(user?.agency_id);
-                setPacks(data);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchPacks();
-    }, [user])
+export default function ListPacks ({ packs, loading, refresh }) {
 
     if (loading) return <Skeleton/>;
 
@@ -37,7 +15,7 @@ export default function ListPacks () {
 
         <>
             {packs.map((pack) => (
-                <RowPacks key={pack.id} pack={pack} />
+                <RowPacks key={pack.id} pack={pack} refresh={refresh} />
             ))}
         </>
 
