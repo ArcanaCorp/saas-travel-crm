@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TravelCRM
 
-## Getting Started
+## Descripción General
 
-First, run the development server:
+TravelCRM es una plataforma digital diseñada para agencias de viajes y turismo, orientada a la gestión eficiente de clientes, paquetes turísticos, equipos de trabajo y operaciones comerciales. Su propósito es centralizar todos los procesos clave del negocio en un solo sistema, facilitando la organización, el control y la toma de decisiones.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+La solución está enfocada en mejorar la productividad de las agencias, optimizar la conversión de clientes y ofrecer una experiencia más estructurada en la administración de servicios turísticos.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ¿Qué permite hacer?
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+TravelCRM permite a las agencias:
 
-## Learn More
+* Gestionar paquetes turísticos y experiencias (creación, edición y control)
+* Administrar clientes y leads comerciales
+* Organizar equipos de trabajo (agentes y roles)
+* Supervisar el rendimiento del negocio
+* Centralizar la información clave en un solo lugar
+* Mantener control sobre operaciones y datos internos
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Módulos principales
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* **Gestión de Paquetes:** Creación y administración de tours y experiencias
+* **Gestión de Usuarios:** Control de agentes, accesos y roles
+* **Perfil de Agencia:** Configuración y personalización del negocio
+* **Panel de Control:** Visualización de métricas y estado general
+* **Leads y Clientes:** Seguimiento de oportunidades comerciales
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Propósito
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+TravelCRM nace con el objetivo de digitalizar y profesionalizar la gestión de agencias de turismo, permitiendo escalar operaciones de forma ordenada y eficiente.
+
+---
+
+## Propiedad y Uso
+
+Este software es propiedad exclusiva de **ARCANA CORP**.
+
+Queda estrictamente prohibido:
+
+* Comercializar, revender o distribuir este sistema sin autorización
+* Utilizar el software con fines lucrativos sin consentimiento expreso
+* Modificar o replicar el producto para beneficio propio o de terceros
+
+Cualquier uso no autorizado será considerado una violación de propiedad y dará lugar a acciones legales correspondientes.
+
+---
+
+## Licencia
+
+Todos los derechos reservados.
+El uso de este sistema está sujeto a autorización expresa por parte de ARCANA CORP.
