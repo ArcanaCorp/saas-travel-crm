@@ -1,18 +1,30 @@
 'use client';
 
+import FormEditAgent from "@/components/users/FormEditAgent";
 import FormNewAgent from "@/components/users/FormNewAgent";
 import GridRanking from "@/components/users/GridRanking";
 import ListUser from "@/components/users/ListUser";
 import RowUser from "@/components/users/RowUser";
 import RowUserAlert from "@/components/users/RowUserAlert";
+import { useAgents } from "@/hooks/useAgents";
 import { IconDownload, IconPlus } from "@tabler/icons-react";
 import { useState } from "react";
 
 export default function Page () {
 
     const [ viewFormAgente, setViewFormAgent ] = useState(false);
+    const [ viewEdit, setViewEdit ] = useState({
+        view: false,
+        data: null
+    });
+
+    const { agents, loading, refreshAll, stats } = useAgents();
 
     const handleToogleFormAgent = () => setViewFormAgent(!viewFormAgente)
+    const handleToogleEdit = (data = null) => {
+        setViewFormAgent(false);
+        setViewEdit(prev => ({ ...prev, view: !prev.view, data }))
+    }
 
     return (
 
@@ -29,7 +41,7 @@ export default function Page () {
                 </div>
             </div>
 
-            <GridRanking/>
+            <GridRanking stats={stats} />
 
             <div className="w-full flex gap-md items-start">
                 <div className="w-full bg-surface border rounded-md overflow-hidden">
@@ -48,31 +60,38 @@ export default function Page () {
                             <span className="w-full h-full flex items-center justify-center text-xs text-muted uppercase font-medium">Estado</span>
                             <span className="w-full h-full flex items-center justify-center text-xs text-muted uppercase font-medium">Acciones</span>
                         </li>
-                        <ListUser/>
+                        <ListUser agents={agents} loading={loading} update={handleToogleEdit} refresh={refreshAll} />
                     </ul>
                 </div>
-                <div className="w flex flex-col gap-md" style={{"--w": "400px", "--mnw": "400px", "--h": "400px"}}>
-                    {viewFormAgente && ( <FormNewAgent toogle={handleToogleFormAgent} /> )}
-                    <div className="w h bg-surface border rounded-md overflow-hidden" style={{"--w": "400px", "--mnw": "400px", "--h": "400px"}}>
-                        <div className="w-full h flex items-center px-md" style={{"--h": "60px"}}>
-                            <h3>Actividad reciente</h3>
+                {viewFormAgente && ( 
+                    <div className="w flex flex-col gap-md" style={{"--w": "400px", "--mnw": "400px", "--h": "400px"}}>
+                        <FormNewAgent toogle={handleToogleFormAgent} fetchAgents={refreshAll} />
+                        <div className="w h bg-surface border rounded-md overflow-hidden none" style={{"--w": "400px", "--mnw": "400px", "--h": "400px"}}>
+                            <div className="w-full h flex items-center px-md" style={{"--h": "60px"}}>
+                                <h3>Actividad reciente</h3>
+                            </div>
+                            <ul className="w-full h flex flex-col gap-md overflow-scroll p-md" style={{"--h": "calc(400px - 60px)"}}>
+                                {Array.from({length: 1}).map((_, i) => (
+                                    <RowUserAlert key={i} />
+                                ))}
+                            </ul>
                         </div>
-                        <ul className="w-full h flex flex-col gap-md overflow-scroll p-md" style={{"--h": "calc(400px - 60px)"}}>
-                            {Array.from({length: 1}).map((_, i) => (
-                                <RowUserAlert key={i} />
-                            ))}
-                        </ul>
+                        <div className="w-full p-md rounded-md bg-primary text-inverse flex flex-col gap-sm none">
+                            <h3>Crece tu equipo</h3>
+                            <p className="text-xs text-inverse leading-heading">
+                                <span className="block mb-xs">¿Necesitas más de 6 agentes?</span>
+                                Actualiza a Plan Enterprise para gestión avanzada
+                                de departamentos y sucursales.
+                            </p>
+                            <button className="w-full text-inverse h rounded-md" style={{"--h": "48px", backgroundColor: "var(--color-primary-hover)"}}>Ver Planes</button>
+                        </div>
                     </div>
-                    <div className="w-full p-md rounded-md bg-primary text-inverse flex flex-col gap-sm none">
-                        <h3>Crece tu equipo</h3>
-                        <p className="text-xs text-inverse leading-heading">
-                            <span className="block mb-xs">¿Necesitas más de 6 agentes?</span>
-                            Actualiza a Plan Enterprise para gestión avanzada
-                            de departamentos y sucursales.
-                        </p>
-                        <button className="w-full text-inverse h rounded-md" style={{"--h": "48px", backgroundColor: "var(--color-primary-hover)"}}>Ver Planes</button>
+                )}
+                {viewEdit.view && ( 
+                    <div className="w flex flex-col gap-md" style={{"--w": "400px", "--mnw": "400px", "--h": "400px"}}>
+                        <FormEditAgent toogle={handleToogleEdit} data={viewEdit.data} refresh={refreshAll} />
                     </div>
-                </div>
+                )}
             </div>
 
         </>

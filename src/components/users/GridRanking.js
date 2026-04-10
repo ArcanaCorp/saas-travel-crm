@@ -1,28 +1,10 @@
 'use client';
 
-import { useAuth } from "@/context/AuthContext";
-import { getUserStats } from "@/services/users.service";
-import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'
 
 
-export default function GridRanking () {
-
-    const { user } = useAuth();
-
-    const [stats, setStats] = useState(null);
-
-    useEffect(() => {
-        if (!user?.agency_id) return;
-
-        const fetchStats = async () => {
-            const data = await getUserStats(user.agency_id);
-            setStats(data);
-        };
-
-        fetchStats();
-    }, [user]);
+export default function GridRanking ({ stats }) {
 
     return (
 

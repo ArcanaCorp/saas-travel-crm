@@ -1,15 +1,12 @@
 'use client';
 
-import { useAuth } from "@/context/AuthContext";
-import { createNewAgent } from "@/services/users.service";
+import { updateAgent } from "@/services/users.service";
 import { IconEye, IconEyeClosed, IconX } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-export default function FormNewAgent ({ toogle, fetchAgents }) {
-
-    const { user } = useAuth();
-
+export default function FormEditAgent ({ toogle, data, refresh }) {
+    
     const [ form, setForm ] = useState({
         email: '',
         password: '',
@@ -29,35 +26,54 @@ export default function FormNewAgent ({ toogle, fetchAgents }) {
     }
 
     const handleSubmit = async () => {
-
-        if (!form.name || !form.email || !form.password || !form.role) return toast.warning('Alerta', { description: 'Completa los campos obligatorios (*)' })
-
+        if (!form.name || !form.email || !form.role) return toast.warning('Alerta', { description: 'Nombre, correo y rol son obligatorios' });
         try {
-
             setLoading(true);
+            const payload = {
+                name: form.name,
+                email: form.email,
+                phone: form.phone,
+                role: form.role,
+            };
 
-            const data = await createNewAgent(form, user?.agency_id);
+            // 👉 solo enviar password si existe
+            if (form.password && form.password.trim() !== "") {
+                payload.password = form.password;
+            }
 
-            if (!data.ok) return toast.warning('Alerta', { description: data.message })
-            
-            await fetchAgents();
+            await updateAgent(data.id, payload);
 
-            toast.success('Éxito', { description: 'Se creó con éxito al nuevo agente.' })
+            toast.success('Éxito', { description: 'Se actualizó con éxito al usuario' })
+
+            await refresh();
+
+            toogle();
 
         } catch (error) {
             console.error(error);
-            toast.error('Error', { description: error.message })
+            toast.error('Error', { description: `Error: ${error.message}` })
         } finally {
-            setLoading(false)
-            toogle();
+            setLoading(false);
         }
     }
+
+    useEffect(() => {
+        if (data) {
+            setForm({
+                name: data.name || "",
+                email: data.email || "",
+                phone: data.phone || "",
+                role: data.role || "",
+                password: ""
+            });
+        }
+    }, [data]);
 
     return (
 
         <div className="w-full p-md rounded-md bg-surface border">
             <div className="w-full flex items-center justify-between">
-                <h3>Agregar nuevo agente</h3>
+                <h3>Editar agente</h3>
                 <button className="center w h rounded-full" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}} onClick={toogle}><IconX/></button>
             </div>
             <div className="w-full flex flex-col gap-md">
@@ -98,11 +114,11 @@ export default function FormNewAgent ({ toogle, fetchAgents }) {
                     </div>
                 </div>
                 <div className="w-full">
-                    <button className="w-full h rounded-md bg-primary text-inverse bg-primary-hover" style={{"--h": "48px"}} disabled={loading} onClick={handleSubmit}>{loading ? 'Creando...' : 'Crear nuevo agente'}</button>
+                    <button className="w-full h rounded-md bg-primary text-inverse bg-primary-hover" style={{"--h": "48px"}} disabled={loading} onClick={handleSubmit}>{loading ? 'Editando...' : 'Editar agente'}</button>
                 </div>
             </div>
         </div>
-        
+
     )
 
 }

@@ -20,11 +20,7 @@ export async function proxy (req) {
         },
     });
 
-    console.log("cookies:", req.cookies.getAll());
-
     const { data: { user }, } = await supabase.auth.getUser();
-
-    console.log(`user: ${user}`);
 
     const isAuth = !!user;
     const { pathname } = req.nextUrl;

@@ -1,6 +1,7 @@
 'use client';
 
-import { signInOrSignUp } from "@/services/auth.service";
+import { useAuth } from "@/context/AuthContext";
+import { getCurrentUser, signInOrSignUp } from "@/services/auth.service";
 import { IconEye, IconEyeClosed, IconLock, IconMail } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,6 +11,7 @@ import { toast } from "sonner";
 export default function Page () {
 
     const router = useRouter();
+    const { setUser } = useAuth();
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const [ loading, setLoading ] = useState(false)
@@ -19,21 +21,17 @@ export default function Page () {
 
         e.preventDefault();
 
-        if (!email || !password) {
-            toast.warning('Alerta', { description: 'Completa todos los campos antes de continuar' })
-            return;
-        }
+        if (!email || !password) return toast.warning('Alerta', { description: 'Completa todos los campos antes de continuar' });
 
         try {
 
             setLoading(true)
             const { user } = await signInOrSignUp(email, password);
-            if (user) {
-                router.push('/dashboard')
-                router.refresh();
-            }
+            if (!user) return;
+            const fullUser = await getCurrentUser();
+            setUser(fullUser);
             toast.success('Éxito', { description: 'Inicio de sesión éxitoso' })
-
+            router.push('/dashboard')
         } catch (e) {
             toast.error('Error', { description: `Hubo un error inesperado: ${e.message}` })
             console.error(e);
