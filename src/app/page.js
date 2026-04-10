@@ -1,18 +1,17 @@
 'use client';
 
-import { clientDB } from "@/libs/supabase";
 import { signInOrSignUp } from "@/services/auth.service";
 import { IconEye, IconEyeClosed, IconLock, IconMail } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function Page () {
 
     const router = useRouter();
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
-    const [ error, setError ] = useState('')
     const [ loading, setLoading ] = useState(false)
     const [ viewPwd, setViewPwd ] = useState(false)
 
@@ -21,42 +20,25 @@ export default function Page () {
         e.preventDefault();
 
         if (!email || !password) {
-            setError("Completa todos los campos");
+            toast.warning('Alerta', { description: 'Completa todos los campos antes de continuar' })
             return;
         }
 
         try {
 
             setLoading(true)
-            setError('')
             const { user } = await signInOrSignUp(email, password);
             if (user) {
                 router.push('/dashboard')
                 router.refresh();
             }
+            toast.success('Éxito', { description: 'Inicio de sesión éxitoso' })
 
         } catch (e) {
-            setError(e)
+            toast.error('Error', { description: `Hubo un error inesperado: ${e.message}` })
             console.error(e);
         } finally {
             setLoading(false)
-        }
-    };
-
-    const handleGoogleLogin = async () => {
-        try {
-            setLoading(true);
-
-            await clientDB.auth.signInWithOAuth({
-                provider: "google",
-                options: {
-                    redirectTo: `${location.origin}/dashboard`
-                }
-            });
-
-        } catch (err) {
-            setError("Error con Google");
-            setLoading(false);
         }
     };
 
@@ -95,11 +77,6 @@ export default function Page () {
                     <button className="w-full h bg-primary text-inverse rounded-md" style={{"--h": "48px"}}>{loading ? 'Cargando...' : 'Iniciar Sesión'}</button>
                 </div>
             </form>
-
-            <div className="w-full flex flex-col gap-md">
-                <div className="w-full h bg-secondary" style={{"--h": "1px"}}></div>
-                <button className="w-full h bg-surface rounded-md border" style={{"--h": "48px"}} onClick={handleGoogleLogin}>{loading ? 'Cargando...' : 'Iniciar Sesión con Google'}</button>
-            </div>
 
             <ul className="w-full flex items-center justify-center gap-md">
                 <li><Link href={'/'} className="text-sm text-muted font-medium uppercase">PRIVACIDAD</Link></li>

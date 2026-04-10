@@ -28,7 +28,7 @@ export default function RootLayout ({ children }) {
             <body>
                 <AuthProvider>
                     <main className="w-screen h-screen flex bg-neutro">
-                        <div className="w-full h-full" style={{backgroundImage: "url(./login-bg.avif)", backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}></div>
+                        <div className="w-full h-full" style={{backgroundImage: "url(https://mytravelcrm.netlify.app/login-bg.avif)", backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}></div>
                         <div className="w-full h-full center">
                             {children}
                         </div>

@@ -1,14 +1,32 @@
 'use client';
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { IconBox, IconCalendar, IconCash, IconHelp, IconLayout2, IconLogout, IconPlus, IconReportMoney, IconSettings, IconUserPlus, IconUsers, IconUsersGroup } from "@tabler/icons-react";
 import { useAuth } from "@/context/AuthContext";
+import { signOut } from "@/services/auth.service";
+import { toast } from "sonner";
 
 export default function Navbar () {
 
     const location = usePathname();
     const { user } = useAuth();
+    const  router = useRouter();
+
+    const handleLogout = () => {
+
+        const promise = signOut();
+
+        toast.promise(promise, {
+            loading: "Cerrando sesión...",
+            success: () => {
+                router.push("/");
+                return "Sesión cerrada";
+            },
+            error: "Error al cerrar sesión",
+        });
+
+    };
 
     return (
 
@@ -30,7 +48,7 @@ export default function Navbar () {
             </ul>
             <div className="flex flex-col gap-xs">
                 <button className="w-full h rounded-md bg-primary text-inverse flex items-center justify-center gap-xs" style={{"--h": "48px"}}><IconPlus/> Nuevo Lead</button>
-                <button className="w-full h rounded-md bg-error-transparent text-error flex items-center justify-center gap-xs" style={{"--h": "48px"}}><IconLogout/> Cerrar sesión</button>
+                <button className="w-full h rounded-md bg-error-transparent text-error flex items-center justify-center gap-xs" style={{"--h": "48px"}} onClick={handleLogout}><IconLogout/> Cerrar sesión</button>
             </div>
         </nav>
 

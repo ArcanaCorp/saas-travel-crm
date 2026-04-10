@@ -62,3 +62,11 @@ export const getCurrentUser = async () => {
         agency: agency
     };
 };
+
+export const signOut = async () => {
+
+    const { error } = await clientDB.auth.signOut();
+
+    if (error) throw error;
+
+};
