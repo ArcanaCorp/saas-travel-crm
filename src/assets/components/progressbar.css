@@ -1,0 +1,13 @@
+/*w-full h rounded-full overflow-hidden bg-neutral */
+.progress-bar {
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-full);
+    background-color: var(--color-neutral);
+}
+
+.progress-status { height: 100%; }
+
+.progress-status-error { background-color: var(--color-error); }
+.progress-status-warning { background-color: var(--color-warning); }
+.progress-status-success { background-color: var(--color-success); }

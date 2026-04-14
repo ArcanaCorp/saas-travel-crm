@@ -4,7 +4,6 @@ import FormEditAgent from "@/components/users/FormEditAgent";
 import FormNewAgent from "@/components/users/FormNewAgent";
 import GridRanking from "@/components/users/GridRanking";
 import ListUser from "@/components/users/ListUser";
-import RowUser from "@/components/users/RowUser";
 import RowUserAlert from "@/components/users/RowUserAlert";
 import { useAgents } from "@/hooks/useAgents";
 import { IconDownload, IconPlus } from "@tabler/icons-react";

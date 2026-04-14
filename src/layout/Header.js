@@ -1,8 +1,10 @@
 'use client';
 
 import { useAuth } from "@/context/AuthContext";
-import { IconBell, IconHelp, IconSearch } from "@tabler/icons-react";
+import { IconHelp, IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 export default function Header () {
 
     const { user } = useAuth();
@@ -17,14 +19,17 @@ export default function Header () {
             </div>
             <div className="flex items-center gap-lg">
                 <Link href={`https://wa.me/51966327426/?text=${encodeURIComponent(message)}`} target="_blank" className="center w h rounded-md bg-neutral" style={{"--w": "45px", "--h": "45px"}}><IconHelp/></Link>
-                <button className="center w h rounded-md bg-neutral" style={{"--w": "45px", "--h": "45px"}}><IconBell/></button>
                 <div className="flex flex-row items-center gap-md px-md">
-                    <div className="flex flex-col gap-xs">
-                        <h4>{user?.name || user?.email}</h4>
-                        <p className="text-xs text-muted text-capitalize">{user?.role}</p>
+                    <div className="w-full flex flex-col gap-xs">
+                        <h4>{!user ? <Skeleton count={1} width={200} /> : user?.name || user?.email}</h4>
+                        <p className="text-xs text-muted text-capitalize">{!user ? <Skeleton count={1} /> : user?.role}</p>
                     </div>
-                    <div className="w h bg-neutral rounded-md border overflow-hidden" style={{"--w": "45px", "--h": "45px"}}>
-                        <img src={user?.agency.image || `https://ui-avatars.com/api/?name=Juan+Valer`} width={45} height={45} />
+                    <div className="w h bg-neutral rounded-md border overflow-hidden" style={{"--w": "45px", "--mnw": "45px", "--h": "45px"}}>
+                        {!user ? (
+                            <Skeleton width={45} height={45} />
+                        ) : (
+                            <img src={user?.agency.image || `https://ui-avatars.com/api/?name=Juan+Valer`} width={45} height={45} />
+                        )}
                     </div>
                 </div>
             </div>

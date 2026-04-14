@@ -1,6 +1,24 @@
-import RowClient from "@/components/clients/RowClient";
-import { IconChevronLeft, IconChevronRight, IconDots, IconStar, IconUserPlus } from "@tabler/icons-react";
+'use client';
+
+import FormEditClient from "@/components/clients/FormEditClient";
+import FormNewClient from "@/components/clients/FormNewClient";
+import ListClients from "@/components/clients/ListClients";
+import { useClients } from "@/hooks/useClients";
+import { IconChevronLeft, IconChevronRight, IconStar, IconUserPlus } from "@tabler/icons-react";
+import { useState } from "react";
 export default function Page () {
+
+    const { clients, loading, addClient, editClient, removeClient } = useClients();
+
+    const [ newClient, setNewClient ] = useState(false);
+    const [ formEditClient, setFormEditClient ] = useState({
+        view: false,
+        data: null
+    });
+
+    const toogleClientForm = () => setNewClient(!newClient);
+    const toogleEditForm = (data) => setFormEditClient(prev => ({...prev, view: !prev.view, data}));
+
     return (
         <>
             <div className="w-full flex items-center justify-between">
@@ -9,7 +27,7 @@ export default function Page () {
                     <p className="text-sm text-muted">Gestiona tu cartera de viajeros de lujo y cuentas corporativas.</p>
                 </div>
                 <div className="flex flex-row gap-xs">
-                    <button className="btn btn-block flex gap-xs btn-primary text-nowrap"><IconUserPlus/> Nuevo cliente</button>
+                    <button className="btn btn-block flex gap-xs btn-primary text-nowrap" onClick={toogleClientForm}><IconUserPlus/> Nuevo cliente</button>
                 </div>
             </div>
 
@@ -35,29 +53,34 @@ export default function Page () {
                 </div>
             </div>
 
-            <div className="w-full rounded-md overflow-hidden border">
-                <ul className="flex items-center justify-between">
-                    <li className="w-full h flex items-center justify-center text-sm text-muted font-bold" style={{"--h": "40px"}}>NOMBRE</li>
-                    <li className="w-full h flex items-center justify-center text-sm text-muted font-bold" style={{"--h": "40px"}}>EMAIL</li>
-                    <li className="w-full h flex items-center justify-center text-sm text-muted font-bold" style={{"--h": "40px"}}>TELÉFONO</li>
-                    <li className="w-full h flex items-center justify-center text-sm text-muted font-bold" style={{"--h": "40px"}}>TIPO</li>
-                    <li className="w-full h flex items-center justify-center text-sm text-muted font-bold" style={{"--h": "40px"}}>ACCIONES</li>
-                </ul>
-                <ul className="w-full flex flex-col bg-surface">
-                    {Array.from({ length: 5 }).map((_, idx) => (
-                        <RowClient key={idx} />
-                    ))}
-                </ul>
-                <div className="w-full flex items-center justify-between bg-surface p-md">
-                    <p className="text-xs text-muted">Mostrando <b>1 - 5</b> de 412 clientes</p>
-                    <div className="flex gap-xs">
-                        <button className="center w h bg-surface rounded-md border" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}}><IconChevronLeft/></button>
-                        <button className="center w h bg-surface rounded-md border" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}}>1</button>
-                        <button className="center w h bg-surface rounded-md border" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}}>2</button>
-                        <button className="center w h bg-surface rounded-md border" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}}>3</button>
-                        <button className="center w h bg-surface rounded-md border" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}}><IconChevronRight/></button>
+            <div className="w-full flex items-start gap-md">
+                <div className="w-full rounded-md overflow-hidden border">
+                    <ul className="w-full flex flex-col bg-surface">
+                        <li className="w-full h flex items-center justify-between text-sm text-muted font-bold bg-neutral" style={{"--h": "40px"}}>
+                            <span className="w-full h flex items-center justify-center">NOMBRE</span>
+                            <span className="w-full h flex items-center justify-center">EMAIL</span>
+                            <span className="w-full h flex items-center justify-center">TELÉFONO</span>
+                            <span className="w-full h flex items-center justify-center">TIPO</span>
+                            <span className="w-full h flex items-center justify-center">FUENTE</span>
+                            <span className="w-full h flex items-center justify-center">ACCIONES</span>
+                        </li>
+                        <ListClients clients={clients} loading={loading} openEdit={toogleEditForm} remove={removeClient} />
+                    </ul>
+                    <div className="w-full flex items-center justify-between bg-surface p-md">
+                        <p className="text-xs text-muted">Mostrando <b>1 - {clients.length}</b> de {clients.length} clientes</p>
+                        {clients.length > 10 && (
+                            <div className="flex gap-xs">
+                                <button className="center w h bg-surface rounded-md border" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}}><IconChevronLeft/></button>
+                                <button className="center w h bg-surface rounded-md border" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}}>1</button>
+                                <button className="center w h bg-surface rounded-md border" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}}>2</button>
+                                <button className="center w h bg-surface rounded-md border" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}}>3</button>
+                                <button className="center w h bg-surface rounded-md border" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}}><IconChevronRight/></button>
+                            </div>
+                        )}
                     </div>
                 </div>
+                {newClient && ( <FormNewClient toggle={toogleClientForm} add={addClient} /> )}
+                {formEditClient.view && ( <FormEditClient toggle={toogleEditForm} data={formEditClient.data} edit={editClient} /> )}
             </div>
 
         </>

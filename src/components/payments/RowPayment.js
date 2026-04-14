@@ -1,30 +1,55 @@
+import { IconEdit, IconTrash } from "@tabler/icons-react";
 import ClientGroup from "../ClientGroup";
+import ProgressBar from "../ProgressBar";
 
-export default function RowPayment ({ i }) {
+export default function RowPayment ({ pay, edit }) {
+
+    const total = pay?.bookings?.total || 0;
+    const remaining = pay?.remaining || 0;
+
+    const paid = total - remaining;
+
+    const percentage = total > 0 
+        ? Math.min((paid / total) * 100, 100)
+        : 0;
+
+    // 🔥 estados visuales
+    const isPaid = remaining === 0;
+    const isPartial = remaining > 0 && paid > 0;
+    const isPending = paid === 0;
+
     return (
         <li className="w-full h flex items-center justify-between" style={{"--h": "60px"}}>
-            <div className="w-full">
-                <ClientGroup name="Miguel Angel" subtext="miguelangel@gmail.com" />
+            <div className="w-full px-sm">
+                <ClientGroup name={pay?.clients.name} subtext={pay?.clients.email} />
             </div>
             <div className="w-full flex items-center justify-center">
-                <p className="flex flex-col text-center gap-xs">
-                    <span className="text-sm font-medium">Cañon del Shutjo</span>
-                    <span className="text-xs text-muted">REF: #8K-992{i}</span>
-                </p>
+                <span className="text-xs font-medium">{pay?.bookings?.packages?.name || '-'}</span>
             </div>
             <div className="w-full flex items-center justify-center">
-                <p className="font-medium">S/. 120.00</p>
+                <p className="text-xs font-medium">S/. {(pay?.remaining).toFixed(2)}</p>
             </div>
             <div className="w-full flex items-center justify-center">
-                <div className="flex flex-col gap-xs">
-                    <div className="w-full h bg-neutral rounded-full overflow-hidden" style={{"--h": "8px"}}>
-                        <div className="w h-full bg-success" style={{"--w": `50%`}}></div>
+                <div className="w-full flex flex-col gap-xs">
+                    <ProgressBar percentage={percentage} />
+                    <div className="flex items-center justify-between">
+                        <span className="text-center text-xs text-muted">s/. {paid.toFixed(2)}</span>
+                        <span className="text-center text-xs text-muted">({Math.round(percentage)}%)</span>
                     </div>
-                    <span className="text-xs text-muted">s/. 60.00 (50%)</span>
                 </div>
             </div>
             <div className="w-full flex items-center justify-center">
-                <span className="text-xs text-success bg-success-transparent rounded-full px-md py-sm">Pagado</span>
+                <span className={`badge ${isPaid ? 'badge-success' : ''} ${isPartial ? 'badge-warning' : ''} ${isPending ? 'badge-neutral' : ''}`}>
+                    {isPaid && 'Pagado'}
+                    {isPartial && 'Parcial'}
+                    {isPending && 'Pendiente'}
+                </span>
+            </div>
+            <div className="flex w-full h-full items-center justify-center">
+                <div className="flex gap-xs">
+                    <button className="center w h rounded-sm bg-info-transparent text-info" style={{"--w": "35px", "--h": "35px"}} onClick={() => edit(pay)}><IconEdit size={18}/></button>
+                    <button className="center w h rounded-sm bg-error-transparent text-error" style={{"--w": "35px", "--h": "35px"}}><IconTrash size={18}/></button>
+                </div>
             </div>
         </li>
     )

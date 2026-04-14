@@ -32,7 +32,7 @@ export default function RowPacks ({ pack, refresh }) {
     return (
 
         <li className="w-full h flex items-center justify-between" style={{"--h": "60px"}}>
-            <div className="w-full">
+            <div className="w-full px-sm">
                 <ClientGroup picture={false} name={pack?.name} subtext={pack?.location} />
             </div>
             <div className="w-full flex items-center justify-center">

@@ -1,13 +1,20 @@
 'use client';
 
 import FormNewBook from "@/components/books/FormNewBook";
-import RowBook from "@/components/books/RowBook";
+import ListBooks from "@/components/books/ListBooks";
+import { useDashboard } from "@/context/DashboardContext";
+import { filterBookings } from "@/helpers/formatter";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 
 export default function Page () {
 
-    const [ viewForm, setViewForm ] = useState(false)
+    const { bookings, bookingsLoading } = useDashboard();
+
+    const [ viewForm, setViewForm ] = useState(false);
+    const [ filter, setFilter ] = useState('all')
+
+    const toggleNewForm = () => setViewForm(!viewForm);
 
     return (
         <>
@@ -27,34 +34,23 @@ export default function Page () {
                 <div className="w-full bg-surface rounded-md border overflow-hidden">
                     <ul className="w-full flex flex-col">
                         <li className="w-full h flex gap-xs items-center px-md" style={{"--h": "60px"}}>
-                            <button className={`text-xs px-md py-sm rounded-full bg-neutral`}>Todas</button>
-                            <button className={`text-xs px-md py-sm rounded-full bg-neutral`}>Confirmado</button>
-                            <button className={`text-xs px-md py-sm rounded-full bg-neutral`}>Pendiente</button>
-                            <button className={`text-xs px-md py-sm rounded-full bg-neutral`}>Cancelados</button>
+                            {filterBookings.map((f) => (
+                                <button key={f.key} className={`badge ${f.key === filter ? 'badge-active' : ''}`} onClick={() => setFilter(f.key)}>{f.value}</button>
+                            ))}
                         </li>
                         <li className="w-full h bg-neutral flex items-center justify-between" style={{"--h": "60px"}}>
-                            <span className="center w-full h-full text-sm text-muted font-medium">CLIENTE</span>
-                            <span className="center w-full h-full text-sm text-muted font-medium">DESTINO</span>
-                            <span className="center w-full h-full text-sm text-muted font-medium">FECHA DE VIAJE</span>
-                            <span className="center w-full h-full text-sm text-muted font-medium">ESTADO</span>
+                            <span className="center w-full h-full text-sm text-muted font-medium uppercase">CLIENTE</span>
+                            <span className="center w-full h-full text-sm text-muted font-medium uppercase">DESTINO</span>
+                            <span className="center w-full h-full text-sm text-muted font-medium uppercase">FECHA DE VIAJE</span>
+                            <span className="center w-full h-full text-sm text-muted font-medium uppercase">TOTAL</span>
+                            <span className="center w-full h-full text-sm text-muted font-medium uppercase">ESTADO</span>
+                            <span className="center w-full h-full text-sm text-muted font-medium uppercase">ACCIONES</span>
                         </li>
-                        {Array.from({length: 8}).map((_, i) => (
-                            <RowBook key={i} />
-                        ))}
+                        <ListBooks books={bookings} loading={bookingsLoading} filter={filter} />
                     </ul>
                 </div>
 
-                {viewForm && (
-                    <div className="w flex flex-col gap-md" style={{"--w": "350px", "--mnw": "350px"}}>
-                        <div className="w bg-surface border rounded-md" style={{"--w": "350px", "--mnw": "350px"}}>
-                            <div className="flex items-center justify-between p-md">
-                                <h3>Nueva Reserva</h3>
-                                <button className="center w h rounded-full" style={{"--w": "30px", "--mnw": "30px", "--h": "30px"}} onClick={() => setViewForm(false)}><IconX size={18}/></button>
-                            </div>
-                            <FormNewBook/>
-                        </div>
-                    </div>
-                )}
+                {viewForm && ( <FormNewBook close={toggleNewForm}/> )}
 
             </div>
 

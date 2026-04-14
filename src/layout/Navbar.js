@@ -2,10 +2,13 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { IconBox, IconCalendar, IconCash, IconHelp, IconLayout2, IconLogout, IconPlus, IconReportMoney, IconSettings, IconUserPlus, IconUsers, IconUsersGroup } from "@tabler/icons-react";
+import { IconBox, IconCalendar, IconCash, IconLayout2, IconLogout, IconPlus, IconReportMoney, IconSettings, IconUserPlus, IconUsers, IconUsersGroup } from "@tabler/icons-react";
 import { useAuth } from "@/context/AuthContext";
 import { signOut } from "@/services/auth.service";
 import { toast } from "sonner";
+
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function Navbar () {
 
@@ -32,7 +35,7 @@ export default function Navbar () {
 
         <nav className="w h-screen bg-surface p-md flex flex-col justify-between" style={{"--w": "300px", "--mnw": "300px"}}>
             <div className="w-full flex flex-col">
-                <h1 className="text-xl">{user?.agency.name || 'TravelCRM'}</h1>
+                <h1 className="text-xl">{!user ? <Skeleton count={1} /> : user?.agency.name || 'TravelCRM'}</h1>
                 <p className="text-xs text-muted">TravelCRM</p>
             </div>
             <ul className="flex w-full flex-col gap-sm">

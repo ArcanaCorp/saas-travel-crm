@@ -1,0 +1,33 @@
+/*text-xs px-md py-sm rounded-full font-medium */
+.badge {
+    font-size: var(--font-size-xs);
+    border-radius: var(--radius-full);
+    background-color: var(--color-neutral);
+    padding: var(--space-sm) var(--space-md);
+}
+
+.badge-error {
+    color: var(--color-error);
+    background-color: var(--color-error-bg);
+}
+
+.badge-warning {
+    color: var(--color-warning);
+    background-color: var(--color-warning-bg);
+}
+
+.badge-info {
+    color: var(--color-info);
+    background-color: var(--color-info-bg);
+}
+
+.badge-success {
+    color: var(--color-success);
+    background-color: var(--color-success-bg);
+}
+
+.badge-active {
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-medium);
+    background-color: var(--color-primary);
+}

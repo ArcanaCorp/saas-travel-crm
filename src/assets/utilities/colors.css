@@ -37,15 +37,17 @@
 .bg-success { background-color: var(--color-success); }
 .bg-success-transparent { background-color: var(--color-success-bg); }
 
-.bg-warning { background-color: var(--color-warning-bg); }
 .text-warning { color: var(--color-warning); }
+.bg-warning { background-color: var(--color-warning-bg); }
+.bg-warning-transparent { background-color: var(--color-warning-bg); }
 
 .text-error { color: var(--color-error); }
 .bg-error { background-color: var(--color-error); }
 .bg-error-transparent { background-color: var(--color-error-bg); }
 
-.bg-info { background-color: var(--color-info-bg); }
 .text-info { color: var(--color-info); }
+.bg-info { background-color: var(--color-info-bg); }
+.bg-info-transparent { background-color: var(--color-info-bg); }
 
 /* =========================
 🔲 BORDERS

@@ -33,8 +33,8 @@ export default function RowUser ({ agente, update, refresh }) {
 
     return (
         <li className="w-full h flex items-center justify-between" style={{"--h": "60px"}}>
-            <div className="w-full px-xs">
-                <ClientGroup picture={false} name={agente?.name} subtext={agente?.email} />
+            <div className="w-full px-sm">
+                <ClientGroup picture={true} name={agente?.name} subtext={agente?.email} />
             </div>
             <div className="w-full h-full flex items-center justify-center">
                 <span className="text-xs font-medium px-md py-sm rounded-md bg-neutral">{rolesName[agente?.role]}</span>

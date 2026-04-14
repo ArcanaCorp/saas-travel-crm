@@ -1,7 +1,7 @@
 export default function ClientGroup ({ picture=true, name='Alejando Mendoza', subtext='Lima, Perú' }) {
 
     return (
-        <div className="w-full flex gap-sm items-center justify-center">
+        <div className="w-full flex gap-sm items-center">
             {picture && (
                 <div className="w h rounded-sm overflow-hidden bg-neutral" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}}>
                     <img src={`https://ui-avatars.com/api/?name=${name}`} width={40} height={40} />
