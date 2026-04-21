@@ -114,6 +114,69 @@ Se agregaron las siguientes columnas:
 Todas las tablas tienen políticas de seguridad activadas:
 - SELECT, INSERT, UPDATE, DELETE filtrados por agency_id = auth.uid()
 
+# Database – SaaS Travel CRM
+
+## Tablas creadas
+
+### clients
+Almacena los clientes de la agencia.
+- id → UUID único autogenerado
+- agency_id → agencia a la que pertenece
+- name → nombre del cliente
+- email → correo del cliente
+- phone → teléfono del cliente
+- source → origen del cliente (web, referido, etc.)
+- status → estado: new | frequent | vip
+
+### quotes
+Almacena las cotizaciones de viajes.
+- id → UUID único autogenerado
+- agency_id → agencia a la que pertenece
+- client_name → nombre del cliente
+- destination → destino del viaje
+- travel_date → fecha de viaje
+- pax → cantidad de personas
+- total → precio total
+- status → estado: draft | sent
+
+### bookings
+Almacena las reservas confirmadas.
+- id → UUID único autogenerado
+- agency_id → agencia a la que pertenece
+- client_id → cliente que reservó
+- destination → destino del viaje
+- travel_date → fecha de viaje
+- status → estado: pending | confirmed | cancelled
+
+### payments
+Almacena los pagos realizados.
+- id → UUID único autogenerado
+- agency_id → agencia a la que pertenece
+- client_id → cliente que pagó
+- booking_id → reserva asociada
+- total → monto pagado
+- type → tipo: advance | remaining
+- status → estado: pending | paid
+- paid_at → fecha de pago
+
+## Modificación leads
+Se agregaron las siguientes columnas:
+- name → nombre del cliente
+- destination → destino de interés
+- priority → prioridad: low | medium | high
+- stage → estado comercial: new | quoted | negotiation
+
+## Relaciones
+- clients.agency_id → agencies.id
+- bookings.client_id → clients.id
+- payments.booking_id → bookings.id
+- payments.client_id → clients.id
+- leads.agent_id → users.id
+
+## RLS
+Todas las tablas tienen políticas de seguridad activadas:
+- SELECT, INSERT, UPDATE, DELETE filtrados por agency_id = auth.uid()
+
 ## Licencia
 
 Todos los derechos reservados.
