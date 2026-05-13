@@ -53,7 +53,7 @@ export default function Page () {
                     <h1>Panel de administración</h1>
                     <p className="text-sm text-muted">Bienvenido de nuevo aquí tienes un resumen de tu actividad.</p>
                 </div>
-                <div className="flex flex-row gap-xs">
+                <div className="flex flex-row gap-xs none">
                     <button className="btn btn-block flex gap-xs btn-primary text-nowrap"><IconDownload/> Exportar reporte</button>
                 </div>
             </div>
