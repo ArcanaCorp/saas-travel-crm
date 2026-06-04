@@ -18,6 +18,7 @@ export default function FormUpdateAgency () {
         ruc: "",
         email: "",
         phone: "",
+        whatsapp: "",
         direction: "",
     });
     const [imagePreview, setImagePreview] = useState(null);
@@ -30,6 +31,7 @@ export default function FormUpdateAgency () {
             ruc: user.agency.ruc || "",
             email: user.agency.email || "",
             phone: user.agency.phone || "",
+            whatsapp: user.agency.whatsapp || "",
             direction: user.agency.direction || "",
         });
         setImagePreview(user.agency.image || null);
@@ -106,6 +108,10 @@ export default function FormUpdateAgency () {
                         </div>
                     </div>
                     <div className="w-full flex gap-md">
+                        <div className="w-full">
+                            <label className="block text-muted text-xs uppercase font-medium mb-sm">Número de WhatsApp</label>
+                            <input type="text" className="w-full h bg-neutral border rounded-md px-md" style={{"--h": "48px"}} name="whatsapp" value={form.whatsapp} onChange={handleChange} placeholder={user?.agency.whatsapp || "Ingresa el whatsapp de la empresa"} readOnly={!isEditing} />
+                        </div>
                         <div className="w-full">
                             <label className="block text-muted text-xs uppercase font-medium mb-sm">Dirección de la Empresa</label>
                             <input type="text" className="w-full h bg-neutral border rounded-md px-md" style={{"--h": "48px"}} name="direction" value={form.direction} onChange={handleChange} placeholder={user?.agency.direction || "Ingresa dirección de la empresa"} readOnly={!isEditing} />

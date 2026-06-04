@@ -3,6 +3,7 @@
 import { useAgents } from "@/hooks/useAgents";
 import { useBooking } from "@/hooks/useBooking";
 import { useClients } from "@/hooks/useClients";
+import { useLanding } from "@/hooks/useLanding";
 import { usePackages } from "@/hooks/usePackage";
 import { usePayment } from "@/hooks/usePayment";
 import { useQuotes } from "@/hooks/useQuotes";
@@ -18,6 +19,7 @@ export const DashboardProvider = ({ children }) => {
     const quotes = useQuotes();
     const booking = useBooking();
     const payments = usePayment();
+    const landing = useLanding();
 
     const refreshAll = async () => {
         await Promise.all([
@@ -26,7 +28,8 @@ export const DashboardProvider = ({ children }) => {
             packages.fetchPacks(),
             quotes.fetchQuotes(),
             booking.fetchBookings(),
-            payments.fetchPayments()
+            payments.fetchPayments(),
+            landing.fetchLanding(),
         ])
     }
 
@@ -55,6 +58,10 @@ export const DashboardProvider = ({ children }) => {
         // 🔹 payments
         payments: payments.payments,
         paymentsLoading: payments.loading,
+
+        // 🔹 landing
+        landing: landing.landing,
+        landingLoading: landing.loading,
 
         // 🔹 actions
         refreshAll,

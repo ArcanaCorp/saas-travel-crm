@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { IconBox, IconCalendar, IconCash, IconLayout2, IconLogout, IconPlus, IconReportMoney, IconSettings, IconUserPlus, IconUsers, IconUsersGroup } from "@tabler/icons-react";
+import { IconBox, IconCalendar, IconCash, IconLayout2, IconLogout, IconPlus, IconReportMoney, IconSettings, IconUserPlus, IconUsers, IconUsersGroup, IconWorldWww } from "@tabler/icons-react";
 import { useAuth } from "@/context/AuthContext";
 import { signOut } from "@/services/auth.service";
 import { toast } from "sonner";
@@ -46,6 +46,9 @@ export default function Navbar () {
                 <li className="w-full"><Link className={`flex items-center gap-sm w-full h rounded-md text-sm px-sm ${location === '/dashboard/books' ? 'text-brand font-medium bg-neutral' : 'bg-hover'}`} style={{"--h": "48px"}} href={'/dashboard/books'}><IconCalendar/> Reservas</Link></li>
                 <li className="w-full"><Link className={`flex items-center gap-sm w-full h rounded-md text-sm px-sm ${location === '/dashboard/payments' ? 'text-brand font-medium bg-neutral' : 'bg-hover'}`} style={{"--h": "48px"}} href={'/dashboard/payments'}><IconCash/> Pagos</Link></li>
                 <li className="w-full"><Link className={`flex items-center gap-sm w-full h rounded-md text-sm px-sm ${location === '/dashboard/packs' ? 'text-brand font-medium bg-neutral' : 'bg-hover'}`} style={{"--h": "48px"}} href={'/dashboard/packs'}><IconBox/> Paquetes</Link></li>
+                {user?.page && (
+                    <li className="w-full"><Link className={`flex items-center gap-sm w-full h rounded-md text-sm px-sm ${location === '/dashboard/web' ? 'text-brand font-medium bg-neutral' : 'bg-hover'}`} style={{"--h": "48px"}} href={'/dashboard/web'}><IconWorldWww/> Página Web</Link></li>
+                )}
                 <li className="w-full"><Link className={`flex items-center gap-sm w-full h rounded-md text-sm px-sm none ${location === '/dashboard/users' ? 'text-brand font-medium bg-neutral' : 'bg-hover'}`} style={{"--h": "48px"}} href={'/dashboard/users'}><IconUsers/> Usuarios</Link></li>
                 <li className="w-full"><Link className={`flex items-center gap-sm w-full h rounded-md text-sm px-sm ${location === '/dashboard/settings' ? 'text-brand font-medium bg-neutral' : 'bg-hover'}`} style={{"--h": "48px"}} href={'/dashboard/settings'}><IconSettings/> Configuración</Link></li>
             </ul>

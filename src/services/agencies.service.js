@@ -33,6 +33,7 @@ export const updateAgency = async (id, form, file) => {
         ruc: form.ruc,
         email: form.email,
         phone: form.phone,
+        whatsapp: form.whatsapp,
         direction: form.direction
     };
 
