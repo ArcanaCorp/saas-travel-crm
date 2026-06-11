@@ -38,6 +38,8 @@ export const filterBookings = [
     {key: 'confirmed', value: 'Confirmados'},
     {key: 'pending', value: 'Pendientes'},
     {key: 'cancelled', value: 'Cancelados'},
+    {key: 'advance', value: 'Adelanto'},
+    {key: 'pay_cancelled', value: 'Pago realizado'},
 ]
 
 // Formato tipo: 13 de abril de 2026
@@ -49,3 +51,13 @@ export const formatDateLL = (date) => {
 export const formatFromNow = (date) => {
     return moment(date).fromNow();
 };
+
+export const statusBook = {
+    'all': 'Todos',
+    'finalized': 'Finalizado',
+    'confirmed': 'Confirmado',
+    'pending': 'Pendiente',
+    'cancelled': 'Cancelado',
+    'advance': 'Adelanto',
+    'pay_cancelled': 'Pago realizado'
+}

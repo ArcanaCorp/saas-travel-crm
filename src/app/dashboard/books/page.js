@@ -1,5 +1,6 @@
 'use client';
 
+import FormEditBook from "@/components/books/FormEditBook";
 import FormNewBook from "@/components/books/FormNewBook";
 import ListBooks from "@/components/books/ListBooks";
 import { useDashboard } from "@/context/DashboardContext";
@@ -11,10 +12,14 @@ export default function Page () {
 
     const { bookings, bookingsLoading } = useDashboard();
 
-    const [ viewForm, setViewForm ] = useState(false);
+    const [ viewForm, setViewForm ] = useState({
+        view: false,
+        type: '',
+        data: null
+    });
     const [ filter, setFilter ] = useState('all')
 
-    const toggleNewForm = () => setViewForm(!viewForm);
+    const toggleNewForm = (type, data) => setViewForm({view: !viewForm.view, type, data});
 
     return (
         <>
@@ -25,7 +30,7 @@ export default function Page () {
                     <p className="text-sm text-muted">Supervisa y organiza las experiencias de tus clientes en tiempo real.</p>
                 </div>
                 <div className="flex flex-row gap-xs">
-                    <button className="btn btn-block flex gap-xs btn-primary text-nowrap" onClick={() => setViewForm(true)}><IconPlus/> Crear Reserva</button>
+                    <button className="btn btn-block flex gap-xs btn-primary text-nowrap" onClick={() => toggleNewForm('new', null)}><IconPlus/> Crear Reserva</button>
                 </div>
             </div>
 
@@ -46,11 +51,17 @@ export default function Page () {
                             <span className="center w-full h-full text-sm text-muted font-medium uppercase">ESTADO</span>
                             <span className="center w-full h-full text-sm text-muted font-medium uppercase">ACCIONES</span>
                         </li>
-                        <ListBooks books={bookings} loading={bookingsLoading} filter={filter} />
+                        <ListBooks books={bookings} loading={bookingsLoading} filter={filter} onEdit={toggleNewForm} />
                     </ul>
                 </div>
 
-                {viewForm && ( <FormNewBook close={toggleNewForm}/> )}
+                {viewForm.view && (
+                    viewForm.type === 'new' ? (
+                        <FormNewBook close={toggleNewForm}/>
+                    ) : (
+                        <FormEditBook book={viewForm.data} close={toggleNewForm} />
+                    )
+                )}
 
             </div>
 

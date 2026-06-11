@@ -26,7 +26,10 @@ export const useBooking = () => {
     const addBooking = (newBooking) => setBookings(prev => [newBooking, ...prev]);
     
     // 🔹 UPDATE (después de respuesta OK)
-    const editBooking = (updatedBooking) => setBookings(prev => prev.map(c => c.id === updatedBooking.id ? updatedBooking : c));
+    const editBooking = (updatedBooking) => {
+        if (!updatedBooking?.id) return;
+        setBookings(prev => prev.map(c => c.id === updatedBooking.id ? updatedBooking : c ));
+    };
     
     // 🔹 DELETE (después de respuesta OK)
     const removeBooking = (id) => setBookings(prev => prev.filter(c => c.id !== id));

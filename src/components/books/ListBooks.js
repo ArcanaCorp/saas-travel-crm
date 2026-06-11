@@ -1,7 +1,7 @@
 import ListSkeleton from "../Skeleton/ListSkeleton";
 import RowBook from "./RowBook";
 
-export default function ListBooks ({ books, loading, filter }) {
+export default function ListBooks ({ books, loading, filter, onEdit }) {
 
     if (loading) return <ListSkeleton cols={6} width={120} height={20} />;
 
@@ -10,7 +10,7 @@ export default function ListBooks ({ books, loading, filter }) {
     return (
 
         books.map((book) => (
-            <RowBook key={book.id} book={book} filter={filter} />
+            <RowBook key={book.id} book={book} filter={filter} onEdit={onEdit} />
         ))
 
     )

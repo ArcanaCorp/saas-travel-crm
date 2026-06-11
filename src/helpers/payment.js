@@ -1,5 +1,5 @@
 export const paymentType = {
-    'cancelled': 'Pago cancelado',
+    'pay_cancelled': 'Pago cancelado',
     'advance': 'Adelanto'
 }
 
