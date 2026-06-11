@@ -131,3 +131,5 @@
 .sticky { position: sticky; }
 
 .inset { inset: 0; }
+
+.pointer { cursor: pointer; }

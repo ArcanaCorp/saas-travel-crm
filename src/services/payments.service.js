@@ -15,8 +15,7 @@ export const getPayments = async (agency_id) => {
                         id,
                         name,
                         price,
-                        type,
-                        image
+                        type
                     )
                 )
             `)
@@ -70,8 +69,7 @@ export const createdPayment = async (payload) => {
                         id,
                         name,
                         price,
-                        type,
-                        image
+                        type
                     )
                 )
             `)

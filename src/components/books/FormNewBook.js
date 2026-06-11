@@ -71,7 +71,7 @@ export default function FormNewBook ({ close }) {
                 <div className="w-full">
                     <label className="block text-muted text-sm font-medium mb-xs">Selecciona un paquete</label>
                     <select className="input" name="package_id" id="package_id" value={form.package_id} onChange={handleChange} disabled={loading}>
-                        <option value={''} hidden>Selecciona el cliente</option>
+                        <option value={''} hidden>Selecciona el paquete</option>
                         {packages.map((pack) => (
                             <option key={pack.id} value={pack.id}>{pack.name}</option>
                         ))}

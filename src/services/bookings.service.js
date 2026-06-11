@@ -42,7 +42,8 @@ export const createBooking = async (quote) => {
                 travel_date: quote.travel_date,
                 pax: quote.pax,
                 total: quote.total,
-                status: "pending"
+                status: "pending",
+                source_booking: "system"
             }
         ])
         .select()

@@ -2,8 +2,10 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { createPackage } from "@/services/packages.service";
+import { IconCamera, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import Switich from "../Switich";
 
 export default function FormNewPackage ({ handleToogle, refresh }) {
 
@@ -17,13 +19,37 @@ export default function FormNewPackage ({ handleToogle, refresh }) {
         duration: '',
         location: '',
         capacity: '',
-        status: false
+        status: false,
+        web: false
     })
+    const [images, setImages] = useState([]);
+    const [previews, setPreviews] = useState([]);
     const [ loading, setLoading ] = useState(false);
 
     const handleChange = (e) => { 
         const { name, value, type, checked } = e.target; 
         setForm({ ...form, [name]: type === "checkbox" ? checked : value }); 
+    }
+
+    const handleChangeStatus = () => setForm(prev => ({...prev, status: !form.status }))
+    const handleChangeWeb = () => setForm(prev => ({...prev, web: !form.web }))
+
+    const handleImages = (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length > 5) return toast.error("Solo puedes subir máximo 5 imágenes");
+        setImages(files);
+        setPreviews(
+            files.map(file => ({
+                file,
+                preview: URL.createObjectURL(file)
+            }))
+        );
+    }
+
+    const handleRemoveImage = (index) => {
+        URL.revokeObjectURL(previews[index].preview);
+        setImages(prev => prev.filter((_, i) => i !== index));
+        setPreviews(prev => prev.filter((_, i) => i !== index));
     }
 
     const handleSubmmit = async () => {
@@ -43,10 +69,11 @@ export default function FormNewPackage ({ handleToogle, refresh }) {
                 duration: form.duration, 
                 location: form.location,
                 capacity: form.capacity ? parseInt(form.capacity) : null, 
-                status: form.status ? "active" : "inactive", 
+                status: form.status ? "active" : "inactive",
+                is_web: form.web 
             };
 
-            await createPackage(payload);
+            await createPackage(payload, images);
             handleToogle();
             await refresh();
 
@@ -82,13 +109,15 @@ export default function FormNewPackage ({ handleToogle, refresh }) {
                         <option value={'Gastronómico'}>Gastronómico</option>
                     </select>
                 </div>
-                <div className="w-full flex flex-col gap-xs">
-                    <label className="text-xs text-muted font-medium">Ingresa el precio base del paquete</label>
-                    <input type="text" name="price" className="w-full h bg-neutral border rounded-md px-md" style={{"--h": "48px"}} placeholder="Ej: 10.00" onChange={handleChange} disabled={loading} />
-                </div>
-                <div className="w-full flex flex-col gap-xs">
-                    <label className="text-xs text-muted font-medium">Ingresa la duración del paquete</label>
-                    <input type="text" name="duration" className="w-full h bg-neutral border rounded-md px-md" style={{"--h": "48px"}} placeholder="Ej: 1 día o 8 horas" onChange={handleChange} disabled={loading} />
+                <div className="w-full flex gap-xs items-center">
+                    <div className="w-full flex flex-col gap-xs">
+                        <label className="text-xs text-muted font-medium">Precio base del paquete</label>
+                        <input type="text" name="price" className="w-full h bg-neutral border rounded-md px-md" style={{"--h": "48px"}} placeholder="Ej: 10.00" onChange={handleChange} disabled={loading} />
+                    </div>
+                    <div className="w-full flex flex-col gap-xs">
+                        <label className="text-xs text-muted font-medium">Duración del paquete</label>
+                        <input type="text" name="duration" className="w-full h bg-neutral border rounded-md px-md" style={{"--h": "48px"}} placeholder="Ej: 1 día o 8 horas" onChange={handleChange} disabled={loading} />
+                    </div>
                 </div>
                 <div className="w-full flex flex-col gap-xs">
                     <label className="text-xs text-muted font-medium">Ingresa la ubicación del paquete</label>
@@ -98,8 +127,28 @@ export default function FormNewPackage ({ handleToogle, refresh }) {
                     <label className="text-xs text-muted font-medium">Ingresa la capacidad máxima de personas</label>
                     <input type="text" name="capacity" className="w-full h bg-neutral border rounded-md px-md" style={{"--h": "48px"}} placeholder="Ej: 10" onChange={handleChange} disabled={loading} />
                 </div>
-                <div className="w-full flex flex-col gap-xs">
-                    <label htmlFor="status-package" className="flex items-center gap-xs text-xs text-muted font-medium"><input type="checkbox" name="status" id="status-package" checked={form.status} onChange={handleChange} disabled={loading} /> Activo</label>
+                <div className="w-full flex items-center gap-xs justify-between">
+                    <label htmlFor="status-package" className="flex items-center gap-xs text-xs text-muted font-medium">Mostrar Activo</label>
+                    <Switich active={form.status} onChange={handleChangeStatus} />
+                </div>
+                {user?.page && (
+                    <div className="w-full flex items-center gap-xs justify-between">
+                        <label htmlFor="status-package" className="flex items-center gap-xs text-xs text-muted font-medium">Mostrar en página web</label>
+                        <Switich active={form.web} onChange={handleChangeWeb} />
+                    </div>
+                )}
+                <div className="w-full">
+                    <span className="block text-xs text-muted font-medium mb-sm">Selecciona las imagenes del paquete</span>
+                    <div className="w-full flex gap-xs flex-wrap">
+                        <label htmlFor="imagesPack" className="w h center pointer bg-neutral rounded-md" style={{"--w": "120px", "--mnw": "120px", "--h": "120px"}}><IconCamera/></label>
+                        {previews.map((img, index) => (
+                            <div key={index} className="relative w h rounded-md overflow-hidden border" style={{"--w": "120px", "--mnw": "120px", "--h": "120px"}}>
+                                <img src={img.preview} className="w-full h-full" />
+                                <button className="absolute w h center inset bg-error text-inverse" style={{"--w": "30px", "--h": "30px", "--mnw": "30px"}} onClick={() => handleRemoveImage(index)}><IconX size={18} /></button>
+                            </div>
+                        ))}
+                    </div>
+                    <input type="file" id="imagesPack" name="imagesPack" accept="image/*" multiple hidden  onChange={handleImages}/>
                 </div>
                 <div className="w-full">
                     <button className="w-full h rounded-md bg-primary text-inverse bg-primary-hover" style={{"--h": "48px"}} disabled={loading} onClick={handleSubmmit}>{loading ? 'Creando...' : 'Crear nuevo paquete'}</button>

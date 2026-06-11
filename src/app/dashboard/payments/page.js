@@ -22,10 +22,6 @@ export default function Page () {
                     <h1>Registro de Pagos</h1>
                     <p className="text-sm text-muted">Gestion descentralizada de transacciones y conciliación de saldos.</p>
                 </div>
-                <div className="flex flex-row gap-xs">
-                    <button className="btn btn-block flex gap-xs btn-primary text-nowrap"><IconPlus/> Registrar Pago</button>
-                    <button className="btn btn-block flex gap-xs btn-outline text-nowrap"><IconDownload/> Exportar Reporte</button>
-                </div>
             </div>
 
             <div className="w-full flex gap-md items-center justify-between my-lg">

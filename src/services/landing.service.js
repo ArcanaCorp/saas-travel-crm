@@ -1,5 +1,4 @@
 import { clientDB } from '@/libs/supabase';
-import { IconUsers, IconTargetArrow, IconBrandWhatsapp, IconSend, IconEye, IconRepeat, IconClockHour4 } from '@tabler/icons-react';
 
 export const getLandingKPIs = async (agencyId) => {
 
