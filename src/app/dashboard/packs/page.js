@@ -1,18 +1,25 @@
 'use client';
 
+import FormEditPackage from "@/components/packs/FormEditPackage";
 import FormNewPackage from "@/components/packs/FormNewPackage";
 import ListPacks from "@/components/packs/ListPacks";
-import { usePackages } from "@/hooks/usePackage";
-import { IconFilter2, IconPlus, IconSearch, IconX } from "@tabler/icons-react";
+import { useDashboard } from "@/context/DashboardContext";
+import { IconFilter2, IconPlus, IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
 
 export default function Page () {
 
-    const { packs, loading, fetchPacks } = usePackages();
+    const { packs, packagesLoading } = useDashboard();
 
-    const [ viewNewPackage, setViewNewPackage ] = useState(false);
+    const [ modal, setModal ] = useState({
+        view: false,
+        type: '',
+        data: null
+    })
 
-    const handleTooglePackage = () => setViewNewPackage(!viewNewPackage);
+    const handleCreate = () => setModal(prev => ({...prev, view: true, type: 'new', data: null}));
+    const handleEditing = (data) => setModal(prev => ({...prev, view: true, type: 'edit', data: data}))
+    const handleClose = () => setModal({view: false, type: '', data: null})
 
     return (
         <>
@@ -23,7 +30,7 @@ export default function Page () {
                     <p className="text-sm text-muted">Gestiona y personaliza tu inventario de experiencias premium.</p>
                 </div>
                 <div className="flex flex-row gap-xs">
-                    <button className="btn btn-block flex gap-xs btn-primary text-nowrap" onClick={handleTooglePackage}><IconPlus/> Nuevo Paquete</button>
+                    <button className="btn btn-block flex gap-xs btn-primary text-nowrap" onClick={handleCreate}><IconPlus/> Nuevo Paquete</button>
                 </div>
             </div>
 
@@ -47,18 +54,10 @@ export default function Page () {
                             <span className="w-full h-full flex items-center justify-center text-xs text-muted font-medium uppercase">ESTADO</span>
                             <span className="w-full h-full flex items-center justify-center text-xs text-muted font-medium uppercase">ACCIONES</span>
                         </li>
-                        <ListPacks packs={packs} loading={loading} refresh={fetchPacks}/>
+                        <ListPacks packs={packs} loading={packagesLoading} onEdit={handleEditing}/>
                     </ul>
                 </div>
-                {viewNewPackage && (
-                    <div className="w bg-surface border rounded-md p-md" style={{"--w": "400px", "--mnw": "400px"}}>
-                        <div className="w-full flex items-center justify-between">
-                            <h3>Nuevo paquete</h3>
-                            <button className="center w h rounded-full" style={{"--w": "40px", "--mnw": "40px", "--h": "40px"}} onClick={handleTooglePackage}><IconX/></button>
-                        </div>
-                        <FormNewPackage handleToogle={handleTooglePackage} refresh={fetchPacks} />
-                    </div>
-                )}
+                {modal.view && ( modal.type === 'new' ? ( <FormNewPackage onClose={handleClose}/> ) : ( <FormEditPackage pack={modal.data} close={handleClose} /> ) )}
             </div>
 
         </>

@@ -51,7 +51,7 @@ export const DashboardProvider = ({ children }) => {
         quotesLoading: quotes.loading,
 
         // 🔹 packages
-        packages: packages.packs,
+        packs: packages.packs,
         packagesLoading: packages.loading,
 
         // 🔹 bookings
@@ -80,6 +80,10 @@ export const DashboardProvider = ({ children }) => {
         addQuote: quotes.addQuote,
         editQuote: quotes.editQuote,
         removeQuote: quotes.removeQuote,
+
+        addPack: packages.addPack,
+        updatePack: packages.updatePack,
+        removePack: packages.removePack,
 
         addBook: booking.addBooking,
         editBook: booking.editBooking,

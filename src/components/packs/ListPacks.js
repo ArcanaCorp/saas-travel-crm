@@ -3,7 +3,7 @@
 import ListSkeleton from "../Skeleton/ListSkeleton";
 import RowPacks from "./RowPacks";
 
-export default function ListPacks ({ packs, loading, refresh }) {
+export default function ListPacks ({ packs, loading, onEdit }) {
 
     if (loading) return <ListSkeleton cols={5} width={120} height={20}/>;
 
@@ -12,7 +12,7 @@ export default function ListPacks ({ packs, loading, refresh }) {
     return (
 
         packs.map((pack) => (
-            <RowPacks key={pack.id} pack={pack} refresh={refresh} />
+            <RowPacks key={pack.id} pack={pack} onEdit={onEdit} />
         ))
 
     )

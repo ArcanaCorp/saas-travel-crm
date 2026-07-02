@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { getPackages } from "@/services/packages.service";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const usePackages = () => {
 
@@ -22,6 +22,25 @@ export const usePackages = () => {
         }
     }
 
+    const addPack = useCallback((newPack) => {
+        setPacks(prev => [newPack, ...prev]);
+    }, []);
+
+    const updatePack = useCallback((updatedPack) => {
+        setPacks(prev =>
+            prev.map(pack =>
+                pack.id === updatedPack.id ? updatedPack : pack
+            )
+        );
+        console.log(updatedPack);
+    }, []);
+
+    const removePack = useCallback((id) => {
+        setPacks(prev =>
+            prev.filter(pack => pack.id !== id)
+        );
+    }, []);
+
     useEffect(() => {
         if (!user?.agency_id) return;
         fetchPacks();
@@ -30,7 +49,10 @@ export const usePackages = () => {
     return {
         packs,
         loading,
-        fetchPacks
+        fetchPacks,
+        addPack,
+        updatePack,
+        removePack
     }
 
 }

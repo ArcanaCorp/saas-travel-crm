@@ -2,13 +2,16 @@ import { IconPencil, IconTrash } from "@tabler/icons-react";
 import ClientGroup from "../ClientGroup";
 import { toast } from "sonner";
 import { deletePackage } from "@/services/packages.service";
+import { useDashboard } from "@/context/DashboardContext";
 
-export default function RowPacks ({ pack, refresh }) {
+export default function RowPacks ({ pack, onEdit }) {
+
+    const { removePack } = useDashboard();
 
     const handleDelete = async () => {
         try {
             await deletePackage(pack.id);
-            await refresh()
+            removePack(pack.id)
             toast.success('Eliminado', {description: 'El agente fue eliminado correctamente'});
         } catch (error) {
             console.error(error);
@@ -46,7 +49,7 @@ export default function RowPacks ({ pack, refresh }) {
             </div>
             <div className="w-full flex items-center justify-center">
                 <div className="flex gap-xs">
-                    <button className="center w h rounded-sm bg-info text-info" style={{"--w": "35px", "--h": "35px"}}><IconPencil/></button>
+                    <button className="center w h rounded-sm bg-info text-info" style={{"--w": "35px", "--h": "35px"}} onClick={() => onEdit(pack)}><IconPencil/></button>
                     <button className="center w h rounded-sm bg-error-transparent text-error" style={{"--w": "35px", "--h": "35px"}} onClick={handleQuestionDelete}><IconTrash/></button>
                 </div>
             </div>

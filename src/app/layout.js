@@ -24,7 +24,7 @@ export default function RootLayout ({ children }) {
 
     return (
 
-        <html lang="es" className={`${manrope.variable} ${inter.variable}`}>
+        <html lang="es" className={`${manrope.variable} ${inter.variable}`} data-scroll-behavior="smooth">
             <body>
                 <AuthProvider>
                     <main className="w-screen h-screen flex bg-neutro">
